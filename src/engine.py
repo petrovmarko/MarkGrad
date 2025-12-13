@@ -1,28 +1,31 @@
 from atom import Scalar
-import random 
-class Parameter:
+import random
 
-    def __init__(self, w, b, in_features, activation = True):
-        self.w = [Scalar(random.rand()) for x in range(in_features)]
-        self.b = Scalar(b)
+class Parameter:
+    def __init__(self, in_features, activation = True):
+        self.w = [Scalar(random.random()) for x in range(in_features)]
+        self.b = Scalar(random.random())
         self.in_features = in_features
         self.activation = activation
     
-    def __call__(self, X):
-        assert (len(X) == self.in_features)
-        return sum([X[i] * self.w[i] for i in range(X)]) + self.b
+    def forward(self, X):
+        if isinstance(X, (float, int)):
+            X = [X]
+        return sum([X[i] * self.w[i] for i in range(self.in_features)]) + self.b
     
+    def __call__(self, X):
+        return self.forward(X)
     
 class Layer:
 
-    def __init__(self, layer):
-        self.layer = layer
-    
+    def __init__(self, in_feature, out_features, activation = True):
+        self.layer = [Parameter(in_feature, activation) for i in range(out_features)]
+
     def forward(self, X):
-        y = []
-        for parameter in self.layer:
-            y.append(parameter.forward(X))
-        return y
+        return [parameter(X) for parameter in self.layer]
+    
+    def __call__(self, X):
+        return self.forward(X)
 
 class NeuralNet:
 
@@ -34,4 +37,10 @@ class NeuralNet:
         self.layers.append(layer)
     
     def forward(self, X):
-
+        for layer in self.layers:
+            X = layer(X)
+        return X if len(X) > 1 else X[0]
+    
+    def __call__(self, X):
+        return self.forward(X)
+    

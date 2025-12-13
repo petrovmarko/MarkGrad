@@ -89,10 +89,17 @@ class Scalar:
     def __repr__(self):
         return str(self.value)
     
+    def __radd__(self, other):
+        return self * other
+    
+    def __rsub__(self, other):
+        return other + (-self)
+
+    def __rmul__(self, other):
+        return self * other
+
+    def __rtruediv__(self, other):
+        return (self ** -1) * other
+    
     def ReLU(self):
         self.value = max(self.value, 0)
-            
-
-
-
-        
