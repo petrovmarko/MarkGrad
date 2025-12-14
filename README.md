@@ -22,4 +22,5 @@ Implementation that is clear and readable
 
 Make a copy of the repository:
 
-```bash git clone https://github.com/your-username/minigrad.git cd minigrad
+```bash git clone https://github.com/petrovmarko/MarkGrad```
+```bash cd MarkGrad```
