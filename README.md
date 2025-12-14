@@ -50,20 +50,25 @@ cd MarkGrad
 ## Example Usage
 
 ```python
-import Scalar, engine
+from Scalar import Scalar
+from engine import Layer, NeuralNet
 
-X_train = [Scalar(x) for x in range(100)] # X 
-y_train = [Scalar(x ** 2 + 3 * x) for x in range(100)] # y 
+y_train = [(x**2) + 1 for x in range(100)] # y 
 
-model = engine.NeuralNet(lr = 0.01) # learning rate of 0.01
-epochs = 100 # epochs for training
+model = NeuralNet(lr = 0.001) # learning rate of 0.001, scale the random parameters by 0.1
+model.add_layer(Layer(in_feature=1, out_features=5, scale = 0.1))
+model.add_layer(Layer(in_feature=5, out_features=5, scale = 0.1))
+model.add_layer(Layer(in_feature=5, out_features=1, scale = 0.1, activation=False))
+
+epochs = 2000 # epochs for training
 
 for epoch in range(epochs):
-    preds = [Model(x) for x in X_train] # get predictions
+    X_train = list(range(100))
+    preds = [model(x) for x in X_train] # get predictions
     # calculate MSE loss
     loss = Scalar(0)
     for j in range(len(preds)):
-        loss = loss + (preds[j] - y_train[j]) ** 2
+        loss = (preds[j] - y_train[j]) ** 2
     loss = loss / len(y_train) # automatic cast from int to Scalar class
     
     # Clean the gradients
@@ -74,7 +79,8 @@ for epoch in range(epochs):
 
     # tune parameters
     model.step()
-
     print(f'Epoch {epoch} | loss {loss}')
+    
+print([model(x) for x in range(100)])
 
 ```
