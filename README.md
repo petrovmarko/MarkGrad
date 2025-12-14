@@ -22,5 +22,10 @@ Implementation that is clear and readable
 
 Make a copy of the repository:
 
-```bash git clone https://github.com/petrovmarko/MarkGrad```
-```bash cd MarkGrad```
+```git clone https://github.com/petrovmarko/MarkGrad```
+```cd MarkGrad```
+
+
+## Example Usage
+
+```python  ```
