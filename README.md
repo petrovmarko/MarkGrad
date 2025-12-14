@@ -30,9 +30,9 @@ Here are some things I really want to implement from scratch as well, and will d
 
 ## Installation
 
-Just clone the repository and you are good to go. No dependencies apart from random and cmath. You can install them with 
+Just clone the repository and you are good to go. No dependencies apart from random and math. You can install them with 
 ```
-pip3 install cmath
+pip3 install math
 ```
 ```
 pip3 install random
