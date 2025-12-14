@@ -1,6 +1,6 @@
 # Neural Network Engine (MLP)
 
-from Scalar import Scalar
+from scalar import Scalar
 import random
 
 class Parameter:
