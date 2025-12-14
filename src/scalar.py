@@ -4,7 +4,7 @@
 
 from math import log
 import sys
-sys.setrecursionlimit(10000)
+#sys.setrecursionlimit(10000)
 
 class Scalar:
     def __init__(self, data) -> None:
