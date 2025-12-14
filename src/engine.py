@@ -61,15 +61,15 @@ class NeuralNet:
     def step(self):
         for param in self.parameters:
             for neuron in param.w:
-                if neuron.grad > 1:
-                    neuron.grad = 1
-                if neuron.grad < -1:
-                    neuron.grad = -1
+                if neuron.grad > 10:
+                    neuron.grad = 10
+                if neuron.grad < -10:
+                    neuron.grad = -10
                 neuron.value -= self.lr * neuron.grad
-            if param.b.grad > 1:
-                param.b.grad = 1
-            if param.b.grad < -1:
-                param.b.grad = -1
+            if param.b.grad > 10:
+                param.b.grad = 10
+            if param.b.grad < -10:
+                param.b.grad = -10
             param.b.value -= self.lr * param.b.grad
 
 
