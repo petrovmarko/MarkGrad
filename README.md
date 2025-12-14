@@ -51,7 +51,7 @@ cd MarkGrad
 
 ```python
 from Scalar import Scalar
-from engine import Layer, NeuralNet
+from Engine import Layer, NeuralNet
 
 y_train = [(x**2) + 1 for x in range(100)] # y 
 
@@ -60,17 +60,17 @@ model.add_layer(Layer(in_feature=1, out_features=5, scale = 0.1))
 model.add_layer(Layer(in_feature=5, out_features=5, scale = 0.1))
 model.add_layer(Layer(in_feature=5, out_features=1, scale = 0.1, activation=False))
 
-epochs = 2000 # epochs for training
+epochs = 300 # epochs for training
 
 for epoch in range(epochs):
     X_train = list(range(100))
     preds = [model(x) for x in X_train] # get predictions
-    # calculate MSE loss
+    # calculate rMSE loss
     loss = Scalar(0)
     for j in range(len(preds)):
-        loss = (preds[j] - y_train[j]) ** 2
+        loss = loss + (preds[j] - y_train[j]) ** 2
     loss = loss / len(y_train) # automatic cast from int to Scalar class
-    
+    loss = loss ** 0.5
     # Clean the gradients
     model.zero_grad()
     
@@ -80,7 +80,8 @@ for epoch in range(epochs):
     # tune parameters
     model.step()
     print(f'Epoch {epoch} | loss {loss}')
-    
+
 print([model(x) for x in range(100)])
+    
 
 ```
