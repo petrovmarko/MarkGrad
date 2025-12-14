@@ -3,7 +3,7 @@
 MarkGrad is a small automatic differentiation engine that was created by me from the ground up to comprehend the inner workings of backpropagation.  
 It is perfect for learning and experimentation because it emphasizes accuracy and clarity over performance.
 
-Motivated by engines in the micrograd style by @karpathy.
+Still not done in full.
 
 ---
 
