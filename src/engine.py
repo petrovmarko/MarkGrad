@@ -4,14 +4,14 @@ from Scalar import Scalar
 import random
 
 class Parameter:
-    def __init__(self, in_features, activation = True):
-        self.w = [Scalar(random.random()) for x in range(in_features)]
-        self.b = Scalar(random.random())
+    def __init__(self, in_features, scale, activation = True):
+        self.w = [Scalar(random.random() * scale) for x in range(in_features)]
+        self.b = Scalar(random.random() * scale)
         self.in_features = in_features
         self.activation = activation
     
     def forward(self, X):
-        if isinstance(X, (float, int)):
+        if isinstance(X, (float, int, Scalar)):
             X = [X]
         return sum([X[i] * self.w[i] for i in range(self.in_features)]) + self.b
     
@@ -20,8 +20,8 @@ class Parameter:
     
 class Layer:
 
-    def __init__(self, in_feature, out_features, activation = True):
-        self.layer = [Parameter(in_feature, activation) for i in range(out_features)]
+    def __init__(self, in_feature, out_features, scale = 10, activation = True):
+        self.layer = [Parameter(in_feature, activation, scale) for i in range(out_features)]
 
     def forward(self, X):
         return [parameter(X) for parameter in self.layer]
@@ -30,7 +30,6 @@ class Layer:
         return self.forward(X)
 
 class NeuralNet:
-
     def __init__(self, lr):
         self.layers = []
         self.parameters = []
@@ -53,14 +52,25 @@ class NeuralNet:
     def zero_grad(self):
         for param in self.parameters:
             for neuron in param.w:
-                self.grad = 0
+                neuron.grad = 0
+                neuron.edges = []
             param.b.grad = 0
+            param.b.edges = []
+            
 
     def step(self):
         for param in self.parameters:
             for neuron in param.w:
-                neuron += -self.lr * neuron.grad
-            param.b += -self.lr * param.b.grad
+                if neuron.grad > 1:
+                    neuron.grad = 1
+                if neuron.grad < -1:
+                    neuron.grad = -1
+                neuron.value -= self.lr * neuron.grad
+            if param.b.grad > 1:
+                param.b.grad = 1
+            if param.b.grad < -1:
+                param.b.grad = -1
+            param.b.value -= self.lr * param.b.grad
 
 
     

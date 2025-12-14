@@ -2,7 +2,9 @@
 # other parameters were used for it's initialization (Directed Acyclic Graph) 
 # for the purpose of backpropagation
 
-from cmath import log
+from math import log
+import sys
+sys.setrecursionlimit(10000)
 
 class Scalar:
     def __init__(self, data) -> None:
@@ -42,7 +44,7 @@ class Scalar:
     def backward(self):
         
         topo_order = []
-        visited = set()
+        visited = set() 
         def dfs(u):
             '''dfs that adds the indices in topological order'''
             if u in visited:
@@ -65,29 +67,17 @@ class Scalar:
 
     def __sub__(self, other):
         return self + (-other)
-    
-    def __pow__(self, other):
-        if not isinstance(other, Scalar):
-            other = Scalar(other)
-        result = Scalar(self.value ** other.value)
-        result.edges.append(self)
-        result.edges.append(other)
-
-        def _backward():
-            self.grad += result.grad * other.value * (self.value ** (other.value-1))
-            other.grad += result.grad * (result.value) * log(self.value)
-        result._backward = _backward
-
-        return result
 
     def __truediv__(self, other):
+        if not isinstance(other, Scalar):
+            other = Scalar(other)
         return self * (other ** (-1))
     
     def __repr__(self):
         return str(self.value)
     
     def __radd__(self, other):
-        return self * other
+        return self + other
     
     def __rsub__(self, other):
         return other + (-self)
@@ -96,7 +86,30 @@ class Scalar:
         return self * other
 
     def __rtruediv__(self, other):
-        return (self ** -1) * other
+        if not isinstance(other, Scalar):
+            other = Scalar(other)
+        return other * (self ** -1)
+    
+    def __pow__(self, other):
+        if not isinstance(other, Scalar):
+            other = Scalar(other)
+
+        result = Scalar(self.value ** other.value)
+        result.edges = [self, other]
+
+        def _backward():
+            self.grad += result.grad * other.value * (self.value ** (other.value - 1))
+            if self.value > 0:
+                other.grad += result.grad * result.value * log(self.value)
+
+        result._backward = _backward
+        return result
     
     def ReLU(self):
-        self.value = max(self.value, 0)
+        result = Scalar(max(self.value, 0))
+        result.edges.append(self)
+        def _backward():
+            if self.value > 0:
+                self.grad += result.grad
+        result._backward = _backward
+        return result
