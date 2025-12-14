@@ -50,8 +50,8 @@ cd MarkGrad
 ## Example Usage
 
 ```python
-from Scalar import Scalar
-from Engine import Layer, NeuralNet
+from scalar import Scalar
+from engine import Layer, NeuralNet
 
 y_train = [(x**2) + 1 for x in range(100)] # y 
 
