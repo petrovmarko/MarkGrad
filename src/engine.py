@@ -1,4 +1,6 @@
-from atom import Scalar
+# Neural Network Engine (MLP)
+
+from Scalar import Scalar
 import random
 
 class Parameter:
@@ -29,12 +31,16 @@ class Layer:
 
 class NeuralNet:
 
-    def __init__(self):
+    def __init__(self, lr):
         self.layers = []
+        self.parameters = []
+        self.lr = lr
         return
     
     def add_layer(self, layer):
         self.layers.append(layer)
+        for neuron in layer.layer:
+            self.parameters.append(neuron)
     
     def forward(self, X):
         for layer in self.layers:
@@ -43,4 +49,18 @@ class NeuralNet:
     
     def __call__(self, X):
         return self.forward(X)
+    
+    def zero_grad(self):
+        for param in self.parameters:
+            for neuron in param.w:
+                self.grad = 0
+            param.b.grad = 0
+
+    def step(self):
+        for param in self.parameters:
+            for neuron in param.w:
+                neuron += -self.lr * neuron.grad
+            param.b += -self.lr * param.b.grad
+
+
     
