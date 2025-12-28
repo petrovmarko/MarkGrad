@@ -1,7 +1,8 @@
 # 🧠 MarkGrad: A Minimal Autograd Engine
 
 MarkGrad is a small automatic differentiation engine that was created by me from the ground up to comprehend the inner workings of backpropagation.  
-It is perfect for learning and experimentation because it emphasizes accuracy and clarity over performance.
+It is perfect for learning and experimentation because it emphasizes accuracy and clarity over performance. Right now it can feel a bit slow especially when training multiple layers, and I plan on 
+implementing a background c++ engine that will make the computation faster.
 
 Still not done in full.
 
@@ -35,7 +36,7 @@ Just clone the repository and you are good to go. No dependencies apart from ran
 pip3 install math
 ```
 ```
-pip3 install random
+pip3 install numpy
 ```
 Then just clone the repo.
 ```
@@ -55,10 +56,10 @@ from engine import Layer, NeuralNet
 
 y_train = [(x**2) + 1 for x in range(100)] # y 
 
-model = NeuralNet(lr = 0.001) # learning rate of 0.001, scale the random parameters by 0.1
-model.add_layer(Layer(in_feature=1, out_features=5, scale = 0.1))
-model.add_layer(Layer(in_feature=5, out_features=5, scale = 0.1))
-model.add_layer(Layer(in_feature=5, out_features=1, scale = 0.1, activation=False))
+model = NeuralNet(lr = 0.001)
+model.add_layer(Layer(in_feature=1, out_features=5, scale = 1))
+model.add_layer(Layer(in_feature=5, out_features=5, scale = 0.2))
+model.add_layer(Layer(in_feature=5, out_features=1, scale = 1, activation='relu'))
 
 epochs = 300 # epochs for training
 
