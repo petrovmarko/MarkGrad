@@ -57,9 +57,9 @@ from engine import Layer, NeuralNet
 y_train = [(x**2) + 1 for x in range(100)] # y 
 
 model = NeuralNet(lr = 0.001)
-model.add_layer(Layer(in_feature=1, out_features=5, scale = 1))
-model.add_layer(Layer(in_feature=5, out_features=5, scale = 0.2))
-model.add_layer(Layer(in_feature=5, out_features=1, scale = 1, activation='relu'))
+model.add_layer(Layer(in_feature=1, out_features=10, scale = 1, activation = 'relu'))
+model.add_layer(Layer(in_feature=10, out_features=20, scale = 0.1, activation = 'relu'))
+model.add_layer(Layer(in_feature=20, out_features=1, scale = 0.01, activation='None'))
 
 epochs = 300 # epochs for training
 
@@ -83,6 +83,8 @@ for epoch in range(epochs):
     print(f'Epoch {epoch} | loss {loss}')
 
 print([model(x) for x in range(100)])
+    
+
     
 
 ```
