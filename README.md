@@ -1,4 +1,4 @@
-# 🧠 MarkGrad: A Minimal Autograd Engine
+# MarkGrad: A Minimal Autograd Engine
 
 MarkGrad is a small automatic differentiation engine that was created by me from the ground up to comprehend the inner workings of backpropagation.  
 It is perfect for learning and experimentation because it emphasizes accuracy and clarity over performance. Right now it can feel a bit slow especially when training multiple layers, and I plan on 
@@ -8,7 +8,7 @@ Still not done in full.
 
 ---
 
-## ✨ Characteristics
+## Characteristics
 
     1. Scalar-based automatic differentiation  
     2. Keeps the directed acyclic graph of computations
